@@ -1,88 +1,318 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/Navbar.css";
 
 function Navbar() {
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
+  const [cartCount, setCartCount] = useState(0);
+
+  const API = "http://localhost:8000";
+
+
+  // =========================================
+  // GET CART COUNT
+  // =========================================
+
+  const getCartCount = () => {
+
+    axios
+      .get(`${API}/api/cart/`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+
+        const items =
+          res.data.items || [];
+
+
+        const totalQuantity =
+          items.reduce(
+            (total, item) =>
+              total +
+              Number(item.quantity),
+            0
+          );
+
+
+        setCartCount(
+          totalQuantity
+        );
+
+      })
+      .catch((error) => {
+
+        console.log(
+          "Cart count error:",
+          error
+        );
+
+      });
+
+  };
+
+
+  // =========================================
+  // CART UPDATE LISTENER
+  // =========================================
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+    getCartCount();
 
-      if (currentScrollY < 30) {
-        setShowNavbar(true);
-      } else if (currentScrollY > lastScrollY + 5) {
-        setShowNavbar(false);
-        setMenuOpen(false);
-      } else if (currentScrollY < lastScrollY - 5) {
-        setShowNavbar(true);
-      }
 
-      lastScrollY = currentScrollY;
+    const handleCartUpdate = () => {
+      getCartCount();
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    window.addEventListener(
+      "cartUpdated",
+      handleCartUpdate
+    );
+
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+
+      window.removeEventListener(
+        "cartUpdated",
+        handleCartUpdate
+      );
+
     };
+
   }, []);
+
+
+  // =========================================
+  // NAVBAR SCROLL
+  // =========================================
+
+  useEffect(() => {
+
+    let lastScrollY =
+      window.scrollY;
+
+
+    const handleScroll = () => {
+
+      const currentScrollY =
+        window.scrollY;
+
+
+      if (currentScrollY < 30) {
+
+        setShowNavbar(true);
+
+      } else if (
+        currentScrollY >
+        lastScrollY + 5
+      ) {
+
+        setShowNavbar(false);
+        setMenuOpen(false);
+
+      } else if (
+        currentScrollY <
+        lastScrollY - 5
+      ) {
+
+        setShowNavbar(true);
+
+      }
+
+
+      lastScrollY =
+        currentScrollY;
+
+    };
+
+
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      {
+        passive: true,
+      }
+    );
+
+
+    return () => {
+
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
+
+    };
+
+  }, []);
+
+
+  // =========================================
+  // CLOSE MENU
+  // =========================================
 
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
-  return (
-    <nav className={`navbar ${showNavbar ? "navbar-show" : "navbar-hide"}`}>
 
-      {/* Logo */}
-      <a href="/" className="navbar-logo" onClick={closeMenu}>
+  // =========================================
+  // UI
+  // =========================================
+
+  return (
+
+    <nav
+      className={`navbar ${
+        showNavbar
+          ? "navbar-show"
+          : "navbar-hide"
+      }`}
+    >
+
+
+      {/* =====================================
+          LOGO
+      ===================================== */}
+
+      <Link
+        to="/"
+        className="navbar-logo"
+        onClick={closeMenu}
+      >
+
         <img
           src="/images/azza-logo.png"
           alt="Azza Foodstuff"
         />
-      </a>
 
-      {/* Links */}
-      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <a href="/" onClick={closeMenu}>Home</a>
-        <a href="/shop" onClick={closeMenu}>Shop</a>
-        <a href="/about" onClick={closeMenu}>About Us</a>
-        <a href="/contact" onClick={closeMenu}>Contact</a>
+      </Link>
+
+
+      {/* =====================================
+          LINKS
+      ===================================== */}
+
+      <div
+        className={`nav-links ${
+          menuOpen ? "open" : ""
+        }`}
+      >
+
+        <Link
+          to="/"
+          onClick={closeMenu}
+        >
+          Home
+        </Link>
+
+
+        <Link
+          to="/shop"
+          onClick={closeMenu}
+        >
+          Shop
+        </Link>
+
+
+        <Link
+          to="/about"
+          onClick={closeMenu}
+        >
+          About Us
+        </Link>
+
+
+        <Link
+          to="/contact"
+          onClick={closeMenu}
+        >
+          Contact
+        </Link>
+
       </div>
 
-      {/* Actions */}
+
+      {/* =====================================
+          ACTIONS
+      ===================================== */}
+
       <div className="nav-actions">
 
+
+        {/* Search */}
+
         <button aria-label="Search">
+
           <span>⌕</span>
+
         </button>
+
+
+        {/* Account */}
 
         <button aria-label="Account">
+
           <span>♙</span>
+
         </button>
 
-        <button className="cart-btn" aria-label="Cart">
-          <span>🛒</span>
-          <i>0</i>
-        </button>
+
+        {/* Cart */}
+
+        <Link
+          to="/cart"
+          className="cart-btn"
+          aria-label="Cart"
+          onClick={closeMenu}
+        >
+
+          <span>
+            🛒
+          </span>
+
+
+          {cartCount > 0 && (
+
+            <i>
+              {cartCount}
+            </i>
+
+          )}
+
+        </Link>
+
 
       </div>
 
-      {/* Mobile menu */}
+
+      {/* =====================================
+          MOBILE MENU
+      ===================================== */}
+
       <button
-        className={`menu-btn ${menuOpen ? "active" : ""}`}
-        onClick={() => setMenuOpen(!menuOpen)}
+        className={`menu-btn ${
+          menuOpen ? "active" : ""
+        }`}
+        onClick={() =>
+          setMenuOpen(!menuOpen)
+        }
         aria-label="Toggle menu"
       >
+
         <span></span>
         <span></span>
         <span></span>
+
       </button>
 
+
     </nav>
+
   );
 }
 
