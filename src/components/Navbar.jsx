@@ -227,12 +227,9 @@ function Navbar() {
         </Link>
 
 
-        <Link
-          to="/contact"
-          onClick={closeMenu}
-        >
-          Contact
-        </Link>
+      
+          
+        <a onClick={closeMenu} href="/#contact">Contact</a>
 
       </div>
 
@@ -244,23 +241,12 @@ function Navbar() {
       <div className="nav-actions">
 
 
-        {/* Search */}
-
-        <button aria-label="Search">
-
-          <span>⌕</span>
-
-        </button>
+      
 
 
-        {/* Account */}
-
-        <button aria-label="Account">
-
-          <span>♙</span>
-
-        </button>
-
+      <Link to="/my-orders">
+  My Orders
+</Link>
 
         {/* Cart */}
 

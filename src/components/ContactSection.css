@@ -1,0 +1,168 @@
+.contact-section {
+  background: #f7f4eb;
+  padding: 90px 7%;
+}
+
+.contact-container {
+  max-width: 1150px;
+  margin: auto;
+}
+
+/* Main Card */
+
+.contact-card {
+  background: #ffffff;
+  border: 1px solid rgba(24, 61, 45, 0.08);
+  border-radius: 28px;
+  padding: 65px 70px;
+
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 80px;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Small decorative circle */
+
+.contact-card::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(168, 121, 50, 0.15);
+  border-radius: 50%;
+  right: -70px;
+  bottom: -70px;
+}
+
+/* Main Content */
+
+.contact-label {
+  color: #a87932;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 0 0 18px;
+}
+
+.contact-main h2 {
+  color: #183d2d;
+  font-family: Georgia, serif;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 500;
+  margin: 0 0 22px;
+}
+
+.contact-description {
+  color: #777;
+  max-width: 500px;
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 0 0 30px;
+}
+
+/* Buttons */
+
+.contact-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.whatsapp-btn,
+.call-btn {
+  padding: 13px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.whatsapp-btn {
+  background: #183d2d;
+  color: #ffffff;
+  border: 1px solid #183d2d;
+}
+
+.whatsapp-btn:hover {
+  background: #a87932;
+  border-color: #a87932;
+}
+
+.call-btn {
+  color: #183d2d;
+  border: 1px solid rgba(24, 61, 45, 0.25);
+}
+
+.call-btn:hover {
+  background: #183d2d;
+  color: #ffffff;
+}
+
+/* Contact Information */
+
+.contact-info {
+  border-left: 1px solid rgba(24, 61, 45, 0.12);
+  padding-left: 45px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+
+  position: relative;
+  z-index: 1;
+}
+
+.contact-info-item span {
+  color: #a87932;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.contact-info-item p {
+  color: #183d2d;
+  font-size: 14px;
+  margin: 7px 0 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .contact-section {
+    padding: 65px 6%;
+  }
+
+  .contact-card {
+    padding: 45px 28px;
+    border-radius: 22px;
+
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-main h2 {
+    font-size: 34px;
+  }
+
+  .contact-description {
+    font-size: 14px;
+  }
+
+  .contact-buttons {
+    flex-wrap: wrap;
+  }
+
+  .contact-info {
+    border-left: none;
+    border-top: 1px solid rgba(24, 61, 45, 0.12);
+    padding-left: 0;
+    padding-top: 30px;
+  }
+}

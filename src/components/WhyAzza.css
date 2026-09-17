@@ -1,0 +1,117 @@
+.why-azza {
+  background: #f7f6f0;
+  padding: 90px 7%;
+  position: relative;
+}
+
+.why-azza-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 90px;
+  align-items: center;
+}
+
+/* Heading */
+
+.why-azza-heading p {
+  color: #a87932;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+.why-azza-heading h2 {
+  color: #183d2d;
+  font-family: Georgia, serif;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 500;
+  margin: 0 0 22px;
+}
+
+.why-azza-heading span {
+  display: block;
+  max-width: 430px;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Points */
+
+.why-azza-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.why-point {
+  display: flex;
+  gap: 22px;
+  padding: 30px 25px;
+  border-bottom: 1px solid rgba(24, 61, 45, 0.15);
+}
+
+.why-point:nth-child(odd) {
+  border-right: 1px solid rgba(24, 61, 45, 0.15);
+}
+
+.why-number {
+  color: #a87932;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 25px;
+}
+
+.why-point h3 {
+  color: #183d2d;
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.why-point p {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .why-azza {
+    padding: 70px 6%;
+  }
+
+  .why-azza-container {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .why-azza-heading h2 {
+    font-size: 34px;
+  }
+
+  .why-azza-heading span {
+    font-size: 14px;
+  }
+
+  .why-azza-points {
+    grid-template-columns: 1fr;
+  }
+
+  .why-point {
+    padding: 24px 0;
+    border-right: none !important;
+  }
+
+  .why-point:last-child {
+    border-bottom: none;
+  }
+}

@@ -1,0 +1,398 @@
+.my-orders-page {
+  min-height: 80vh;
+  background: #f7f6f0;
+  padding: 100px 7%;
+}
+
+.my-orders-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.my-orders-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.my-orders-label {
+  color: #a87932;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 0 0 14px;
+}
+
+.my-orders-header h1 {
+  color: #183d2d;
+  font-family: Georgia, serif;
+  font-size: 46px;
+  font-weight: 400;
+  margin: 0 0 15px;
+}
+
+.my-orders-header > p:last-child {
+  color: #777;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.order-search {
+  background: #ffffff;
+  border: 1px solid rgba(24, 61, 45, 0.08);
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  margin-bottom: 45px;
+}
+
+.phone-input {
+  flex: 1;
+}
+
+.phone-input label {
+  display: block;
+  color: #183d2d;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.phone-input input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(24, 61, 45, 0.15);
+  border-radius: 10px;
+  padding: 13px 15px;
+  outline: none;
+  color: #183d2d;
+  font-family: inherit;
+  font-size: 14px;
+  background: #fff;
+}
+
+.phone-input input:focus {
+  border-color: #a87932;
+}
+
+.order-search button {
+  border: none;
+  background: #183d2d;
+  color: #fff;
+  padding: 13px 25px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.order-search button:hover {
+  background: #a87932;
+}
+
+.order-search button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.orders-loading {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+
+/* =========================
+   NO ORDERS
+========================= */
+
+.no-orders {
+  background: #fff;
+  border-radius: 20px;
+  padding: 60px 30px;
+  text-align: center;
+  border: 1px solid rgba(24, 61, 45, 0.08);
+}
+
+.no-orders-icon {
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.no-orders h2 {
+  color: #183d2d;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  margin: 0 0 10px;
+}
+
+.no-orders p {
+  color: #777;
+  font-size: 14px;
+  margin: 0;
+}
+
+
+/* =========================
+   ORDER LIST
+========================= */
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+
+/* =========================
+   ORDER CARD
+========================= */
+
+.order-card {
+  background: #fff;
+  border: 1px solid rgba(24, 61, 45, 0.08);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+
+/* =========================
+   ORDER HEADER
+========================= */
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(24, 61, 45, 0.1);
+}
+
+.order-card-header span,
+.order-date span,
+.order-address span {
+  display: block;
+  color: #a87932;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.order-card-header h2 {
+  color: #183d2d;
+  font-size: 20px;
+  margin: 6px 0 0;
+}
+
+.order-date {
+  text-align: right;
+}
+
+.order-date p {
+  color: #666;
+  font-size: 13px;
+  margin: 6px 0 0;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.order-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(24, 61, 45, 0.08);
+}
+
+.order-status-row > span {
+  color: #666;
+  font-size: 13px;
+}
+
+.order-status-row strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-pending {
+  color: #a87932;
+}
+
+.status-confirmed {
+  color: #183d2d;
+}
+
+.status-shipped {
+  color: #6c7180;
+}
+
+.status-delivered {
+  color: #2f6b4f;
+}
+
+.status-cancelled {
+  color: #a34b4b;
+}
+
+
+/* =========================
+   ITEMS
+========================= */
+
+.order-items {
+  padding: 22px 0;
+}
+
+.order-items h3 {
+  color: #183d2d;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(24, 61, 45, 0.06);
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item-info h4 {
+  color: #183d2d;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 5px;
+}
+
+.order-item-info p {
+  color: #777;
+  font-size: 12px;
+  margin: 0;
+}
+
+.order-item > strong {
+  color: #183d2d;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-top: 1px solid rgba(24, 61, 45, 0.12);
+  border-bottom: 1px solid rgba(24, 61, 45, 0.08);
+}
+
+.order-total span {
+  color: #666;
+  font-size: 14px;
+}
+
+.order-total strong {
+  color: #183d2d;
+  font-size: 18px;
+}
+
+
+/* =========================
+   ADDRESS
+========================= */
+
+.order-address {
+  padding-top: 20px;
+}
+
+.order-address p {
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 7px 0 0;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .my-orders-page {
+    padding: 70px 6%;
+  }
+
+  .my-orders-header {
+    margin-bottom: 30px;
+  }
+
+  .my-orders-header h1 {
+    font-size: 36px;
+  }
+
+  .my-orders-header > p:last-child {
+    font-size: 14px;
+  }
+
+  .order-search {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .order-search button {
+    width: 100%;
+  }
+
+  .order-card {
+    padding: 22px;
+    border-radius: 17px;
+  }
+
+  .order-card-header {
+    gap: 20px;
+  }
+
+  .order-date {
+    text-align: right;
+  }
+
+  .order-item {
+    align-items: flex-start;
+  }
+
+}

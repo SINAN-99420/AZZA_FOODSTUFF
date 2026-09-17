@@ -12,10 +12,18 @@ function Cart() {
   });
 
   const [loading, setLoading] = useState(true);
+  const [showOrderForm, setShowOrderForm] = useState(false);
 
-  // =========================================
-  // GET CART
-  // =========================================
+  const [customer, setCustomer] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    pincode: "",
+  });
+
+  /* =========================
+     GET CART
+  ========================= */
 
   const getCart = () => {
     axios
@@ -36,10 +44,9 @@ function Cart() {
     getCart();
   }, []);
 
-
-  // =========================================
-  // UPDATE QUANTITY
-  // =========================================
+  /* =========================
+     UPDATE QUANTITY
+  ========================= */
 
   const updateQuantity = (itemId, newQuantity) => {
     if (newQuantity < 1) return;
@@ -57,7 +64,6 @@ function Cart() {
       .then(() => {
         getCart();
 
-        // Update Navbar
         window.dispatchEvent(
           new Event("cartUpdated")
         );
@@ -67,10 +73,9 @@ function Cart() {
       });
   };
 
-
-  // =========================================
-  // REMOVE ITEM
-  // =========================================
+  /* =========================
+     REMOVE ITEM
+  ========================= */
 
   const removeItem = (itemId) => {
     axios
@@ -83,7 +88,6 @@ function Cart() {
       .then(() => {
         getCart();
 
-        // Update Navbar
         window.dispatchEvent(
           new Event("cartUpdated")
         );
@@ -93,10 +97,161 @@ function Cart() {
       });
   };
 
+  /* =========================
+     FORM INPUT
+  ========================= */
 
-  // =========================================
-  // LOADING
-  // =========================================
+  const handleCustomerChange = (e) => {
+    const { name, value } = e.target;
+
+    setCustomer((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  /* =========================
+     OPEN ORDER FORM
+  ========================= */
+
+  const openOrderForm = () => {
+    if (cart.items.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    setShowOrderForm(true);
+  };
+
+  /* =========================
+     CLOSE ORDER FORM
+  ========================= */
+
+  const closeOrderForm = () => {
+    setShowOrderForm(false);
+  };
+
+  /* =========================
+     CREATE ORDER + WHATSAPP
+  ========================= */
+
+  const sendWhatsAppOrder = async (e) => {
+    e.preventDefault();
+
+    if (
+      !customer.name ||
+      !customer.phone ||
+      !customer.address ||
+      !customer.pincode
+    ) {
+      alert("Please fill all customer details.");
+      return;
+    }
+
+    if (cart.items.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    try {
+      /* =========================
+         CREATE ORDER IN DJANGO
+      ========================= */
+
+      const orderResponse = await axios.post(
+        `${API}/api/orders/create/`,
+        {
+          name: customer.name,
+          phone: customer.phone,
+          address: customer.address,
+          pincode: customer.pincode,
+
+          email: "",
+          city: "",
+          district: "",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      const orderId = orderResponse.data.order_id;
+
+      /* =========================
+         WHATSAPP MESSAGE
+      ========================= */
+
+      const whatsappNumber = "919495987283";
+
+      let message =
+        "AZZA FOODSTUFF\n\n" +
+        `Order ID: #${orderId}\n\n` +
+        "Hello, I would like to place an order.\n\n" +
+        "ORDER DETAILS\n\n";
+
+      cart.items.forEach((item, index) => {
+        message +=
+          `${index + 1}. ${item.product}\n` +
+          `   ${item.weight} ${item.unit} × ${item.quantity} — ₹${Number(
+            item.subtotal
+          ).toFixed(2)}\n\n`;
+      });
+
+      message +=
+        `Subtotal: ₹${Number(cart.total).toFixed(2)}\n` +
+        "Delivery: To be confirmed\n\n" +
+        "CUSTOMER DETAILS\n\n" +
+        `Name: ${customer.name}\n` +
+        `Phone: ${customer.phone}\n` +
+        `Address: ${customer.address}\n` +
+        `Pincode: ${customer.pincode}\n\n` +
+        "Please confirm my order and delivery details.\n\n" +
+        "Thank you.";
+
+      const whatsappUrl =
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+          message
+        )}`;
+
+      /* =========================
+         OPEN WHATSAPP
+      ========================= */
+
+      window.open(
+        whatsappUrl,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      /* =========================
+         CLOSE FORM + REFRESH CART
+      ========================= */
+
+      setShowOrderForm(false);
+
+      getCart();
+
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+
+    } catch (error) {
+      console.log("Order creation error:", error);
+
+      if (error.response) {
+        alert(
+          error.response.data?.error ||
+          "Failed to create order."
+        );
+      } else {
+        alert("Could not connect to the server.");
+      }
+    }
+  };
+
+  /* =========================
+     LOADING
+  ========================= */
 
   if (loading) {
     return (
@@ -106,32 +261,14 @@ function Cart() {
     );
   }
 
-
-  // =========================================
-  // UI
-  // =========================================
-
   return (
     <div className="cart-page">
 
       <div className="cart-container">
 
-        {/* Heading */}
-
-        <div className="cart-heading">
-
-          <p>AZZA FOODSTUFF</p>
-
-          <h1>
-            Your Cart
-          </h1>
-
-        </div>
-
-
-        {/* =================================
+        {/* =========================
             EMPTY CART
-        ================================= */}
+        ========================= */}
 
         {cart.items.length === 0 ? (
 
@@ -161,12 +298,15 @@ function Cart() {
 
         ) : (
 
+          /* =========================
+             CART CONTENT
+          ========================= */
+
           <div className="cart-content">
 
-
-            {/* =================================
-                CART ITEMS
-            ================================= */}
+            {/* =========================
+                ITEMS
+            ========================= */}
 
             <div className="cart-items">
 
@@ -201,7 +341,8 @@ function Cart() {
                     </p>
 
                     <span>
-                      ₹{Number(item.price).toFixed(2)}
+                      ₹
+                      {Number(item.price).toFixed(2)}
                     </span>
 
                   </div>
@@ -210,9 +351,6 @@ function Cart() {
                   {/* Actions */}
 
                   <div className="cart-item-actions">
-
-
-                    {/* Quantity */}
 
                     <div className="cart-quantity">
 
@@ -245,14 +383,13 @@ function Cart() {
                     </div>
 
 
-                    {/* Subtotal */}
-
                     <p className="cart-subtotal">
-                      ₹{Number(item.subtotal).toFixed(2)}
+                      ₹
+                      {Number(
+                        item.subtotal
+                      ).toFixed(2)}
                     </p>
 
-
-                    {/* Remove */}
 
                     <button
                       className="remove-btn"
@@ -272,9 +409,9 @@ function Cart() {
             </div>
 
 
-            {/* =================================
-                ORDER SUMMARY
-            ================================= */}
+            {/* =========================
+                SUMMARY
+            ========================= */}
 
             <div className="cart-summary">
 
@@ -290,7 +427,10 @@ function Cart() {
                 </span>
 
                 <span>
-                  ₹{Number(cart.total).toFixed(2)}
+                  ₹
+                  {Number(
+                    cart.total
+                  ).toFixed(2)}
                 </span>
 
               </div>
@@ -303,7 +443,7 @@ function Cart() {
                 </span>
 
                 <span>
-                  Calculated at checkout
+                  Confirm on WhatsApp
                 </span>
 
               </div>
@@ -319,15 +459,37 @@ function Cart() {
                 </span>
 
                 <strong>
-                  ₹{Number(cart.total).toFixed(2)}
+                  ₹
+                  {Number(
+                    cart.total
+                  ).toFixed(2)}
                 </strong>
 
               </div>
 
 
-              <button className="checkout-btn">
-                Proceed to Checkout
+              {/* WhatsApp */}
+
+              <button
+                className="whatsapp-order-btn"
+                onClick={openOrderForm}
+              >
+
+                <span>
+                  Order on WhatsApp
+                </span>
+
+                <strong>
+                  →
+                </strong>
+
               </button>
+
+
+              <p className="whatsapp-note">
+                Your order details will be
+                sent to Azza Foodstuff on WhatsApp.
+              </p>
 
 
               <Link
@@ -344,6 +506,187 @@ function Cart() {
         )}
 
       </div>
+
+
+      {/* =====================================
+          ORDER FORM OVERLAY
+      ===================================== */}
+
+      {showOrderForm && (
+
+        <div
+          className="order-overlay"
+          onClick={closeOrderForm}
+        >
+
+          <div
+            className="order-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+
+            {/* Header */}
+
+            <div className="order-modal-header">
+
+              <div>
+
+                <p>
+                  AZZA FOODSTUFF
+                </p>
+
+                <h2>
+                  Complete Your Order
+                </h2>
+
+              </div>
+
+              <button
+                className="order-close"
+                onClick={closeOrderForm}
+              >
+                ×
+              </button>
+
+            </div>
+
+
+            {/* Form */}
+
+            <form
+              onSubmit={sendWhatsAppOrder}
+              className="order-form"
+            >
+
+              {/* Name */}
+
+              <div className="form-field">
+
+                <label>
+                  Full Name
+                </label>
+
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  value={customer.name}
+                  onChange={handleCustomerChange}
+                  required
+                />
+
+              </div>
+
+
+              {/* Phone */}
+
+              <div className="form-field">
+
+                <label>
+                  Phone Number
+                </label>
+
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  value={customer.phone}
+                  onChange={handleCustomerChange}
+                  required
+                />
+
+              </div>
+
+
+              {/* Address */}
+
+              <div className="form-field">
+
+                <label>
+                  Delivery Address
+                </label>
+
+                <textarea
+                  name="address"
+                  placeholder="Enter your complete delivery address"
+                  value={customer.address}
+                  onChange={handleCustomerChange}
+                  rows="3"
+                  required
+                ></textarea>
+
+              </div>
+
+
+              {/* Pincode */}
+
+              <div className="form-field">
+
+                <label>
+                  Pincode
+                </label>
+
+                <input
+                  type="text"
+                  name="pincode"
+                  placeholder="Enter pincode"
+                  value={customer.pincode}
+                  onChange={handleCustomerChange}
+                  required
+                />
+
+              </div>
+
+
+              {/* Total */}
+
+              <div className="order-form-total">
+
+                <span>
+                  Order Total
+                </span>
+
+                <strong>
+                  ₹
+                  {Number(
+                    cart.total
+                  ).toFixed(2)}
+                </strong>
+
+              </div>
+
+
+              {/* Submit */}
+
+              <button
+                type="submit"
+                className="send-whatsapp-btn"
+              >
+
+                <span>
+                  Send Order on WhatsApp
+                </span>
+
+                <strong>
+                  →
+                </strong>
+
+              </button>
+
+
+              <p className="form-note">
+                Your order will be saved and the
+                order details will open in WhatsApp.
+              </p>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      )}
 
     </div>
   );
