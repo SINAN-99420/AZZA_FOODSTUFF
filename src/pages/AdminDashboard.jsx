@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
+import AdminNavbar from "./AdminNavbar";
 
 const API = "http://localhost:8000";
 
@@ -217,27 +218,7 @@ function AdminDashboard() {
   return (
     <div className="admin-dashboard-page">
 
-      <header className="admin-dashboard-header">
-        <div className="admin-header-left">
-          <img
-            src="/images/azza-logo.png"
-            alt="Azza Foodstuff"
-            className="admin-dashboard-logo"
-          />
-
-          <div>
-            <h1>Admin Dashboard</h1>
-            <p>Manage your store orders</p>
-          </div>
-        </div>
-
-        <button
-          className="admin-logout-btn"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </header>
+      <AdminNavbar onLogout={handleLogout} />
 
       <main className="admin-dashboard-content">
 
