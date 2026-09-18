@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Shop.css";
 
-const API = "https://azza-backend.onrender.com/";
+const API = "https://azza-backend.onrender.com";
 
 function Shop() {
   const [categories, setCategories] = useState([]);

@@ -3,7 +3,7 @@ import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 import "./AdminProducts.css";
 
-const API = "https://azza-backend.onrender.com/";
+const API = "https://azza-backend.onrender.com";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);

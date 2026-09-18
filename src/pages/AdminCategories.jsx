@@ -3,7 +3,7 @@ import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 import "./AdminCategories.css";
 
-const API = "https://azza-backend.onrender.com/";
+const API = "https://azza-backend.onrender.com";
 
 function AdminCategories() {
   const [categories, setCategories] = useState([]);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./MyOrders.css";
 
-const API = "https://azza-backend.onrender.com/";
+const API = "https://azza-backend.onrender.com";
 
 function MyOrders() {
   const [phone, setPhone] = useState("");

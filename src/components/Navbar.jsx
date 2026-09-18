@@ -9,7 +9,7 @@ function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [cartCount, setCartCount] = useState(0);
 
-  const API = "https://azza-backend.onrender.com/";
+  const API = "https://azza-backend.onrender.com";
 
 
   // =========================================
