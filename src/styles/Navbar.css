@@ -36,7 +36,23 @@
     box-shadow 0.3s ease;
 }
 
+.orders-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+}
 
+.orders-btn svg {
+  flex-shrink: 0;
+}
+
+.cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* =================================
    SHOW / HIDE ON SCROLL
 ================================= */

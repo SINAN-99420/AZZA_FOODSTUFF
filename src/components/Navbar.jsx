@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {
+  Package,
+  ShoppingCart,
+} from "lucide-react";
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -10,7 +14,6 @@ function Navbar() {
   const [cartCount, setCartCount] = useState(0);
 
   const API = "https://azza-backend.onrender.com";
-
 
   // =========================================
   // GET CART COUNT
@@ -27,7 +30,6 @@ function Navbar() {
         const items =
           res.data.items || [];
 
-
         const totalQuantity =
           items.reduce(
             (total, item) =>
@@ -35,7 +37,6 @@ function Navbar() {
               Number(item.quantity),
             0
           );
-
 
         setCartCount(
           totalQuantity
@@ -62,17 +63,14 @@ function Navbar() {
 
     getCartCount();
 
-
     const handleCartUpdate = () => {
       getCartCount();
     };
-
 
     window.addEventListener(
       "cartUpdated",
       handleCartUpdate
     );
-
 
     return () => {
 
@@ -95,12 +93,10 @@ function Navbar() {
     let lastScrollY =
       window.scrollY;
 
-
     const handleScroll = () => {
 
       const currentScrollY =
         window.scrollY;
-
 
       if (currentScrollY < 30) {
 
@@ -123,12 +119,10 @@ function Navbar() {
 
       }
 
-
       lastScrollY =
         currentScrollY;
 
     };
-
 
     window.addEventListener(
       "scroll",
@@ -137,7 +131,6 @@ function Navbar() {
         passive: true,
       }
     );
-
 
     return () => {
 
@@ -173,7 +166,6 @@ function Navbar() {
           : "navbar-hide"
       }`}
     >
-
 
       {/* =====================================
           LOGO
@@ -227,9 +219,12 @@ function Navbar() {
         </Link>
 
 
-      
-          
-        <a onClick={closeMenu} href="/#contact">Contact</a>
+        <a
+          href="/#contact"
+          onClick={closeMenu}
+        >
+          Contact
+        </a>
 
       </div>
 
@@ -240,13 +235,25 @@ function Navbar() {
 
       <div className="nav-actions">
 
+        {/* My Orders */}
 
-      
+        <Link
+          to="/my-orders"
+          className="orders-btn"
+          onClick={closeMenu}
+        >
 
+          <Package
+            size={18}
+            strokeWidth={1.8}
+          />
 
-      <Link to="/my-orders">
-  My Orders
-</Link>
+          <span>
+            My Orders
+          </span>
+
+        </Link>
+
 
         {/* Cart */}
 
@@ -257,9 +264,10 @@ function Navbar() {
           onClick={closeMenu}
         >
 
-          <span>
-            🛒
-          </span>
+          <ShoppingCart
+            size={20}
+            strokeWidth={1.8}
+          />
 
 
           {cartCount > 0 && (
@@ -272,7 +280,6 @@ function Navbar() {
 
         </Link>
 
-
       </div>
 
 
@@ -281,6 +288,7 @@ function Navbar() {
       ===================================== */}
 
       <button
+        type="button"
         className={`menu-btn ${
           menuOpen ? "active" : ""
         }`}
