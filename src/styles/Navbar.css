@@ -218,8 +218,8 @@
 .cart-btn i {
   position: absolute;
 
-  top: 2px;
-  right: 1px;
+      top: -11px;
+    right: -11px;
 
   min-width: 15px;
   height: 15px;

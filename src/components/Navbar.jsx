@@ -248,9 +248,9 @@ function Navbar() {
             strokeWidth={1.8}
           />
 
-          <span>
+          {/* <span>
             My Orders
-          </span>
+          </span> */}
 
         </Link>
 
