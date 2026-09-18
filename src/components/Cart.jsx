@@ -212,7 +212,7 @@ function Cart() {
          WHATSAPP MESSAGE
       ========================= */
 
-      const whatsappNumber = "919495987283";
+      const whatsappNumber = "918075360984";
 
       let message =
         "AZZA FOODSTUFF\n\n" +

@@ -2,7 +2,7 @@ import React from "react";
 import "./ContactSection.css";
 
 function ContactSection() {
-  const whatsappNumber = "919XXXXXXXXX";
+  const whatsappNumber = "918075360984";
 
   const openWhatsApp = () => {
     const message =
