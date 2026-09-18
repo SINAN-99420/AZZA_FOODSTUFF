@@ -75,12 +75,10 @@ function FeaturedProducts() {
 
                   <a href={`/product/${product.id}`}>
                     <div className="featured-product-image">
-
                       <img
-                        src={`https://azza-backend.onrender.com${product.image}`}
+                        src={product.image}
                         alt={product.name}
                       />
- 
                     </div>
                   </a>
 
