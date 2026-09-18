@@ -176,7 +176,7 @@ function ProductDetail() {
       return "";
     }
 
-    if (image.startsWith("http")) {
+    if (image.startsWith("https")) {
       return image;
     }
 
