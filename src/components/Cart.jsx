@@ -22,6 +22,21 @@ function Cart() {
   });
 
   /* =========================
+     GET CSRF TOKEN
+  ========================= */
+
+  const getCSRFToken = async () => {
+    const response = await axios.get(
+      `${API}/api/csrf/`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data.csrfToken;
+  };
+
+  /* =========================
      GET CART
   ========================= */
 
@@ -48,53 +63,61 @@ function Cart() {
      UPDATE QUANTITY
   ========================= */
 
-  const updateQuantity = (itemId, newQuantity) => {
+  const updateQuantity = async (itemId, newQuantity) => {
     if (newQuantity < 1) return;
 
-    axios
-      .patch(
+    try {
+      const csrfToken = await getCSRFToken();
+
+      await axios.patch(
         `${API}/api/cart/update/${itemId}/`,
         {
           quantity: newQuantity,
         },
         {
           withCredentials: true,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
         }
-      )
-      .then(() => {
-        getCart();
+      );
 
-        window.dispatchEvent(
-          new Event("cartUpdated")
-        );
-      })
-      .catch((error) => {
-        console.log("Update error:", error);
-      });
+      getCart();
+
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+    } catch (error) {
+      console.log("Update error:", error);
+    }
   };
 
   /* =========================
      REMOVE ITEM
   ========================= */
 
-  const removeItem = (itemId) => {
-    axios
-      .delete(
+  const removeItem = async (itemId) => {
+    try {
+      const csrfToken = await getCSRFToken();
+
+      await axios.delete(
         `${API}/api/cart/remove/${itemId}/`,
         {
           withCredentials: true,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
         }
-      )
-      .then(() => {
-        getCart();
+      );
 
-        window.dispatchEvent(
-          new Event("cartUpdated")
-        );
-      })
-      .catch((error) => {
-        console.log("Remove error:", error);
-      });
+      getCart();
+
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+    } catch (error) {
+      console.log("Remove error:", error);
+    }
   };
 
   /* =========================
@@ -155,6 +178,12 @@ function Cart() {
 
     try {
       /* =========================
+         GET CSRF TOKEN
+      ========================= */
+
+      const csrfToken = await getCSRFToken();
+
+      /* =========================
          CREATE ORDER IN DJANGO
       ========================= */
 
@@ -165,13 +194,15 @@ function Cart() {
           phone: customer.phone,
           address: customer.address,
           pincode: customer.pincode,
-
           email: "",
           city: "",
           district: "",
         },
         {
           withCredentials: true,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
         }
       );
 
@@ -234,17 +265,21 @@ function Cart() {
       window.dispatchEvent(
         new Event("cartUpdated")
       );
-
     } catch (error) {
-      console.log("Order creation error:", error);
+      console.log(
+        "Order creation error:",
+        error
+      );
 
       if (error.response) {
         alert(
           error.response.data?.error ||
-          "Failed to create order."
+            "Failed to create order."
         );
       } else {
-        alert("Could not connect to the server.");
+        alert(
+          "Could not connect to the server."
+        );
       }
     }
   };
@@ -317,18 +352,33 @@ function Cart() {
                   key={item.id}
                 >
 
-                  {/* Image */}
+                  {/* =========================
+                      PRODUCT IMAGE
+                  ========================= */}
 
                   <div className="cart-item-image">
 
-                    <div className="cart-image-placeholder">
-                      🍯
-                    </div>
+                    {item.image ? (
+
+                      <img
+                        src={item.image}
+                        alt={item.product}
+                      />
+
+                    ) : (
+
+                      <div className="cart-image-placeholder">
+                        🍯
+                      </div>
+
+                    )}
 
                   </div>
 
 
-                  {/* Details */}
+                  {/* =========================
+                      DETAILS
+                  ========================= */}
 
                   <div className="cart-item-details">
 
@@ -342,19 +392,24 @@ function Cart() {
 
                     <span>
                       ₹
-                      {Number(item.price).toFixed(2)}
+                      {Number(
+                        item.price
+                      ).toFixed(2)}
                     </span>
 
                   </div>
 
 
-                  {/* Actions */}
+                  {/* =========================
+                      ACTIONS
+                  ========================= */}
 
                   <div className="cart-item-actions">
 
                     <div className="cart-quantity">
 
                       <button
+                        type="button"
                         onClick={() =>
                           updateQuantity(
                             item.id,
@@ -370,6 +425,7 @@ function Cart() {
                       </span>
 
                       <button
+                        type="button"
                         onClick={() =>
                           updateQuantity(
                             item.id,
@@ -392,6 +448,7 @@ function Cart() {
 
 
                     <button
+                      type="button"
                       className="remove-btn"
                       onClick={() =>
                         removeItem(item.id)
@@ -468,9 +525,12 @@ function Cart() {
               </div>
 
 
-              {/* WhatsApp */}
+              {/* =========================
+                  WHATSAPP ORDER
+              ========================= */}
 
               <button
+                type="button"
                 className="whatsapp-order-btn"
                 onClick={openOrderForm}
               >
@@ -526,7 +586,9 @@ function Cart() {
             }
           >
 
-            {/* Header */}
+            {/* =========================
+                HEADER
+            ========================= */}
 
             <div className="order-modal-header">
 
@@ -543,6 +605,7 @@ function Cart() {
               </div>
 
               <button
+                type="button"
                 className="order-close"
                 onClick={closeOrderForm}
               >
@@ -552,7 +615,9 @@ function Cart() {
             </div>
 
 
-            {/* Form */}
+            {/* =========================
+                FORM
+            ========================= */}
 
             <form
               onSubmit={sendWhatsAppOrder}
@@ -572,7 +637,9 @@ function Cart() {
                   name="name"
                   placeholder="Enter your name"
                   value={customer.name}
-                  onChange={handleCustomerChange}
+                  onChange={
+                    handleCustomerChange
+                  }
                   required
                 />
 
@@ -592,7 +659,9 @@ function Cart() {
                   name="phone"
                   placeholder="Enter your phone number"
                   value={customer.phone}
-                  onChange={handleCustomerChange}
+                  onChange={
+                    handleCustomerChange
+                  }
                   required
                 />
 
@@ -611,7 +680,9 @@ function Cart() {
                   name="address"
                   placeholder="Enter your complete delivery address"
                   value={customer.address}
-                  onChange={handleCustomerChange}
+                  onChange={
+                    handleCustomerChange
+                  }
                   rows="3"
                   required
                 ></textarea>
@@ -632,7 +703,9 @@ function Cart() {
                   name="pincode"
                   placeholder="Enter pincode"
                   value={customer.pincode}
-                  onChange={handleCustomerChange}
+                  onChange={
+                    handleCustomerChange
+                  }
                   required
                 />
 
