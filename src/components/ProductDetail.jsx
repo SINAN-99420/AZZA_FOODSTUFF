@@ -14,116 +14,100 @@ function ProductDetail() {
 
   const API = "https://azza-backend.onrender.com";
 
+  // =========================================
+  // GET CSRF TOKEN
+  // =========================================
+
+  const getCSRFToken = async () => {
+    const response = await axios.get(
+      `${API}/api/csrf/`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data.csrfToken;
+  };
 
   // =========================================
   // GET PRODUCT
   // =========================================
 
   useEffect(() => {
-
     axios
       .get(`${API}/api/categories/`, {
         withCredentials: true,
       })
       .then((res) => {
-
         let foundProduct = null;
 
         res.data.forEach((category) => {
-
           category.products.forEach((item) => {
-
             if (item.id === Number(id)) {
               foundProduct = item;
             }
-
           });
-
         });
-
 
         setProduct(foundProduct);
 
-
         if (foundProduct) {
-
           // First variant
-
           if (
             foundProduct.variants &&
             foundProduct.variants.length > 0
           ) {
-
             setSelectedVariant(
               foundProduct.variants[0]
             );
-
           }
 
-
           // Main image
-
           if (foundProduct.image) {
-
             setSelectedImage(
               foundProduct.image
             );
-
           } else if (
             foundProduct.images &&
             foundProduct.images.length > 0
           ) {
-
             setSelectedImage(
               foundProduct.images[0].image
             );
-
           }
-
         }
 
-
         setLoading(false);
-
       })
       .catch((error) => {
-
         console.log(
           "Product error:",
           error
         );
 
         setLoading(false);
-
       });
-
   }, [id]);
-
 
   // =========================================
   // LOADING
   // =========================================
 
   if (loading) {
-
     return (
       <div className="product-loading">
         Loading product...
       </div>
     );
-
   }
-
 
   // =========================================
   // PRODUCT NOT FOUND
   // =========================================
 
   if (!product) {
-
     return (
       <div className="product-not-found">
-
         <h2>
           Product not found
         </h2>
@@ -131,12 +115,9 @@ function ProductDetail() {
         <Link to="/shop">
           Back to Shop
         </Link>
-
       </div>
     );
-
   }
-
 
   // =========================================
   // IMAGE LIST
@@ -144,34 +125,26 @@ function ProductDetail() {
 
   const imageList = [];
 
-
   if (product.image) {
     imageList.push(product.image);
   }
-
 
   if (
     product.images &&
     product.images.length > 0
   ) {
-
     product.images.forEach((item) => {
-
       if (!imageList.includes(item.image)) {
         imageList.push(item.image);
       }
-
     });
-
   }
-
 
   // =========================================
   // IMAGE URL
   // =========================================
 
   const getImageUrl = (image) => {
-
     if (!image) {
       return "";
     }
@@ -181,44 +154,32 @@ function ProductDetail() {
     }
 
     return `${API}${image}`;
-
   };
-
 
   // =========================================
   // QUANTITY
   // =========================================
 
   const increaseQuantity = () => {
-
     setQuantity(
       (prev) => prev + 1
     );
-
   };
 
-
   const decreaseQuantity = () => {
-
     if (quantity > 1) {
-
       setQuantity(
         (prev) => prev - 1
       );
-
     }
-
   };
-
 
   // =========================================
   // ADD TO CART
   // =========================================
 
-  const handleAddToCart = () => {
-
+  const handleAddToCart = async () => {
     if (!selectedVariant) {
-
       alert(
         "Please select a product variant."
       );
@@ -226,9 +187,12 @@ function ProductDetail() {
       return;
     }
 
+    try {
+      // Get CSRF token
+      const csrfToken = await getCSRFToken();
 
-    axios
-      .post(
+      // Add product to cart
+      await axios.post(
         `${API}/api/cart/add/`,
         {
           variant_id: selectedVariant.id,
@@ -236,55 +200,54 @@ function ProductDetail() {
         },
         {
           withCredentials: true,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
         }
-      )
-      .then(() => {
+      );
 
-        alert(
-          "Product added to cart"
-        );
+      alert(
+        "Product added to cart"
+      );
 
+      // Update Navbar cart count
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
 
-        // Update Navbar cart count
+    } catch (error) {
+      console.log(
+        "Cart error:",
+        error
+      );
 
-        window.dispatchEvent(
-          new Event("cartUpdated")
-        );
-
-      })
-      .catch((error) => {
-
+      if (error.response) {
         console.log(
-          "Cart error:",
-          error
+          "Server response:",
+          error.response.data
         );
+      }
 
-        alert(
-          "Something went wrong"
-        );
-
-      });
-
+      alert(
+        "Something went wrong"
+      );
+    }
   };
-
 
   // =========================================
   // UI
   // =========================================
 
   return (
-
     <div className="product-detail-page">
 
       <div className="product-detail-container">
-
 
         {/* =====================================
             LEFT SIDE
         ===================================== */}
 
         <div className="product-gallery">
-
 
           {/* Main Image */}
 
@@ -306,7 +269,6 @@ function ProductDetail() {
             )}
 
           </div>
-
 
           {/* Multiple Images */}
 
@@ -347,13 +309,11 @@ function ProductDetail() {
 
         </div>
 
-
         {/* =====================================
             RIGHT SIDE
         ===================================== */}
 
         <div className="product-info">
-
 
           {/* Brand */}
 
@@ -361,20 +321,17 @@ function ProductDetail() {
             AZZA FOODSTUFF
           </p>
 
-
           {/* Product Name */}
 
           <h1>
             {product.name}
           </h1>
 
-
           {/* Description */}
 
           <p className="product-description">
             {product.description}
           </p>
-
 
           {/* =================================
               VARIANTS
@@ -423,7 +380,6 @@ function ProductDetail() {
 
             )}
 
-
           {/* =================================
               PRICE
           ================================= */}
@@ -435,7 +391,6 @@ function ProductDetail() {
             </div>
 
           )}
-
 
           {/* =================================
               QUANTITY
@@ -477,7 +432,6 @@ function ProductDetail() {
 
           )}
 
-
           {/* =================================
               BUTTONS
           ================================= */}
@@ -494,7 +448,6 @@ function ProductDetail() {
               Add to Cart
             </button>
 
-
             <button
               className="buy-now-btn"
               disabled
@@ -503,7 +456,6 @@ function ProductDetail() {
             </button>
 
           </div>
-
 
           {/* =================================
               NOTES
@@ -517,7 +469,6 @@ function ProductDetail() {
 
           </div>
 
-
           <div className="product-note">
 
             <span>✓</span>
@@ -526,13 +477,11 @@ function ProductDetail() {
 
           </div>
 
-
         </div>
 
       </div>
 
     </div>
-
   );
 }
 
