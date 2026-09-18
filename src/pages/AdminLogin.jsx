@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
 
-const API = "http://localhost:8000";
+const API = "https://azza-backend.onrender.com/";
 
 function AdminLogin() {
   const navigate = useNavigate();

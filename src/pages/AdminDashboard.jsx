@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 import AdminNavbar from "./AdminNavbar";
 
-const API = "http://localhost:8000";
+const API = "https://azza-backend.onrender.com/";
 
 function AdminDashboard() {
   const navigate = useNavigate();

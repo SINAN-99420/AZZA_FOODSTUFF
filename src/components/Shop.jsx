@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Shop.css";
 
-const API = "http://localhost:8000";
+const API = "https://azza-backend.onrender.com/";
 
 function Shop() {
   const [categories, setCategories] = useState([]);
@@ -40,7 +40,7 @@ function Shop() {
   const getImageUrl = (image) => {
     if (!image) return null;
 
-    if (image.startsWith("http")) {
+    if (image.startsWith("https")) {
       return image;
     }
 

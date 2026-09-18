@@ -12,7 +12,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const API = "http://localhost:8000";
+  const API = "https://azza-backend.onrender.com/";
 
 
   // =========================================

@@ -8,7 +8,7 @@ function FeaturedProducts() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/categories/")
+      .get("https://azza-backend.onrender.com/api/categories/")
       .then((res) => {
         setCategories(res.data);
 
@@ -77,7 +77,7 @@ function FeaturedProducts() {
                     <div className="featured-product-image">
 
                       <img
-                        src={`http://127.0.0.1:8000${product.image}`}
+                        src={`https://azza-backend.onrender.com${product.image}`}
                         alt={product.name}
                       />
  
