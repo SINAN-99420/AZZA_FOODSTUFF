@@ -36,7 +36,7 @@ function Footer() {
           </p>
 
           <div className="footer-socials">
-            <a href="#" aria-label="Instagram">
+            <a href="https://www.instagram.com/azza_foodstuff/?hl=en" aria-label="Instagram">
               Instagram
             </a>
 

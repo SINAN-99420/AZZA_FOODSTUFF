@@ -5,8 +5,11 @@ import "./FeaturedProducts.css";
 function FeaturedProducts() {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get("https://azza-backend.onrender.com/api/categories/")
       .then((res) => {
@@ -18,12 +21,14 @@ function FeaturedProducts() {
       })
       .catch((error) => {
         console.log("Category error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   return (
     <section className="featured-section">
-
       <div className="featured-container">
 
         {/* Heading */}
@@ -37,75 +42,113 @@ function FeaturedProducts() {
           </h2>
         </div>
 
-
         {/* Categories */}
-        <div className="featured-categories">
-
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              className={
-                activeCategory?.id === category.id
-                  ? "category active"
-                  : "category"
-              }
-              onClick={() => setActiveCategory(category)}
-            >
-              {category.name}
-            </button>
-          ))}
-
-        </div>
-
-
-        {/* Products */}
-        {activeCategory && (
-          <div className="featured-products">
-
-            {activeCategory.products.map((product) => {
-
-              // First variant price
-              const price =
-                product.variants.length > 0
-                  ? product.variants[0].price
-                  : null;
-
-              return (
-                <div className="featured-product" key={product.id}>
-
-                  <a href={`/product/${product.id}`}>
-                    <div className="featured-product-image">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                      />
-                    </div>
-                  </a>
-
-
-                  <div className="featured-product-info">
-
-                    <div>
-                      <h3>{product.name}</h3>
-
-                      {price && (
-                        <p>From ₹{price}</p>
-                      )}
-                    </div>
-
-                    <a href={`/product/${product.id}`}>
-                      View product <span>→</span>
-                    </a>
-
-                  </div>
-
-                </div>
-              );
-            })}
-
+        {loading ? (
+          <div className="featured-categories skeleton-categories">
+            <div className="skeleton-category"></div>
+            <div className="skeleton-category short"></div>
+          </div>
+        ) : (
+          <div className="featured-categories">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                className={
+                  activeCategory?.id === category.id
+                    ? "category active"
+                    : "category"
+                }
+                onClick={() => setActiveCategory(category)}
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
         )}
 
+        {/* Products */}
+        {loading ? (
+          <div className="featured-products">
+
+            {[1, 2].map((item) => (
+              <div className="featured-product skeleton-product" key={item}>
+
+                <div className="featured-product-image skeleton-image">
+                  <div className="skeleton-shimmer"></div>
+                </div>
+
+                <div className="featured-product-info skeleton-info">
+
+                  <div>
+                    <div className="skeleton-line skeleton-title"></div>
+                    <div className="skeleton-line skeleton-price"></div>
+                  </div>
+
+                  <div className="skeleton-line skeleton-link"></div>
+
+                </div>
+
+              </div>
+            ))}
+
+          </div>
+        ) : (
+          activeCategory && (
+            <div className="featured-products">
+
+              {activeCategory.products.map((product) => {
+
+                const price =
+                  product.variants.length > 0
+                    ? product.variants[0].price
+                    : null;
+
+                return (
+                  <div
+                    className="featured-product"
+                    key={product.id}
+                  >
+
+                    <a href={`/product/${product.id}`}>
+                      <div className="featured-product-image">
+
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                          />
+                        ) : (
+                          <div className="featured-image-placeholder">
+                            No image
+                          </div>
+                        )}
+
+                      </div>
+                    </a>
+
+                    <div className="featured-product-info">
+
+                      <div>
+                        <h3>{product.name}</h3>
+
+                        {price && (
+                          <p>From ₹{price}</p>
+                        )}
+                      </div>
+
+                      <a href={`/product/${product.id}`}>
+                        View product <span>→</span>
+                      </a>
+
+                    </div>
+
+                  </div>
+                );
+              })}
+
+            </div>
+          )
+        )}
 
         {/* Bottom */}
         <div className="featured-bottom">
@@ -117,7 +160,6 @@ function FeaturedProducts() {
         </div>
 
       </div>
-
     </section>
   );
 }

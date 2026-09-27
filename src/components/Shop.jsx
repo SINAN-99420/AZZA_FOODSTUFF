@@ -11,14 +11,17 @@ function Shop() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get(`${API}/api/categories/`)
       .then((res) => {
         setCategories(res.data);
-        setLoading(false);
       })
       .catch((error) => {
         console.log("Shop error:", error);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, []);
@@ -59,14 +62,6 @@ function Shop() {
     return Math.min(...prices);
   };
 
-  if (loading) {
-    return (
-      <div className="shop-loading">
-        <span>Loading collection</span>
-      </div>
-    );
-  }
-
   return (
     <main className="shop-page">
 
@@ -75,22 +70,6 @@ function Shop() {
       ========================= */}
 
       <section className="shop-header">
-
-        {/* <div className="shop-header-inner">
-
-          <p className="shop-eyebrow">
-            AZZA FOODSTUFF
-          </p>
-
-          <h1>Our Collection</h1>
-
-          <p className="shop-intro">
-            Discover our selection of carefully chosen honey
-            and thoughtfully crafted honey nut products.
-          </p>
-
-        </div> */}
-
       </section>
 
 
@@ -102,159 +81,243 @@ function Shop() {
 
         <div className="shop-container">
 
-          {/* Category navigation */}
+          {loading ? (
 
-          <div className="shop-filter">
+            /* =========================
+               LOADING SKELETON
+            ========================= */
 
-            <button
-              className={
-                activeCategory === "All"
-                  ? "filter-item active"
-                  : "filter-item"
-              }
-              onClick={() => setActiveCategory("All")}
-            >
-              All
-            </button>
+            <>
+              <div className="shop-filter shop-filter-skeleton">
 
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                className={
-                  activeCategory === category.name
-                    ? "filter-item active"
-                    : "filter-item"
-                }
-                onClick={() =>
-                  setActiveCategory(category.name)
-                }
-              >
-                {category.name}
-              </button>
-            ))}
+                <div className="filter-skeleton-item skeleton-pulse"></div>
+                <div className="filter-skeleton-item skeleton-pulse"></div>
+                <div className="filter-skeleton-item short skeleton-pulse"></div>
 
-          </div>
+              </div>
 
+              <div className="shop-result-info">
+                <div className="result-skeleton skeleton-pulse"></div>
+              </div>
 
-          {/* Product count */}
+              <div className="shop-grid">
 
-          <div className="shop-result-info">
-            <span>
-              {products.length}{" "}
-              {products.length === 1 ? "product" : "products"}
-            </span>
-          </div>
-
-
-          {/* Product grid */}
-
-          {products.length === 0 ? (
-
-            <div className="shop-empty">
-              <h2>No products available</h2>
-
-              <p>
-                Our collection will appear here once products
-                are added.
-              </p>
-            </div>
-
-          ) : (
-
-            <div className="shop-grid">
-
-              {products.map((product) => {
-
-                const price = getStartingPrice(product);
-
-                return (
+                {[1, 2, 3].map((item) => (
                   <article
-                    className="shop-card"
-                    key={product.id}
+                    className="shop-card shop-skeleton-card"
+                    key={item}
                   >
 
-                    {/* Image */}
+                    {/* Image skeleton */}
 
-                    <Link
-                      to={`/product/${product.id}`}
-                      className="shop-image"
-                    >
-
-                      {product.image ? (
-                        <img
-                          src={getImageUrl(product.image)}
-                          alt={product.name}
-                        />
-                      ) : (
-                        <div className="shop-no-image">
-                          No image
-                        </div>
-                      )}
-
-                      <span className="image-link">
-                        View
-                      </span>
-
-                    </Link>
+                    <div className="shop-image shop-skeleton-image">
+                      <div className="skeleton-shimmer"></div>
+                    </div>
 
 
-                    {/* Details */}
+                    {/* Details skeleton */}
 
                     <div className="shop-details">
 
-                      <span className="product-category">
-                        {product.categoryName}
-                      </span>
+                      <div className="skeleton-category skeleton-pulse"></div>
 
-                      <h2>
-                        {product.name}
-                      </h2>
+                      <div className="skeleton-title skeleton-pulse"></div>
 
-                      {product.description && (
-                        <p className="product-description">
-                          {product.description}
-                        </p>
-                      )}
+                      <div className="skeleton-description skeleton-pulse"></div>
+                      <div className="skeleton-description short skeleton-pulse"></div>
 
 
                       <div className="product-footer">
 
                         <div className="product-price">
 
-                          {price !== null ? (
-                            <>
-                              <span>From</span>
+                          <div className="skeleton-price skeleton-pulse"></div>
 
-                              <strong>
-                                ₹{price.toFixed(0)}
-                              </strong>
-                            </>
-                          ) : (
-                            <span>
-                              View product
-                            </span>
-                          )}
+                          <div className="skeleton-price-large skeleton-pulse"></div>
 
                         </div>
 
-
-                        <Link
-                          to={`/product/${product.id}`}
-                          className="product-link"
-                        >
-                          View Details
-                          <span>→</span>
-                        </Link>
+                        <div className="skeleton-link skeleton-pulse"></div>
 
                       </div>
 
                     </div>
 
                   </article>
-                );
-              })}
+                ))}
 
-            </div>
+              </div>
+            </>
+
+          ) : (
+
+            /* =========================
+               REAL SHOP CONTENT
+            ========================= */
+
+            <>
+
+              {/* Category navigation */}
+
+              <div className="shop-filter">
+
+                <button
+                  className={
+                    activeCategory === "All"
+                      ? "filter-item active"
+                      : "filter-item"
+                  }
+                  onClick={() => setActiveCategory("All")}
+                >
+                  All
+                </button>
+
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    className={
+                      activeCategory === category.name
+                        ? "filter-item active"
+                        : "filter-item"
+                    }
+                    onClick={() =>
+                      setActiveCategory(category.name)
+                    }
+                  >
+                    {category.name}
+                  </button>
+                ))}
+
+              </div>
+
+
+              {/* Product count */}
+
+              <div className="shop-result-info">
+                <span>
+                  {products.length}{" "}
+                  {products.length === 1
+                    ? "product"
+                    : "products"}
+                </span>
+              </div>
+
+
+              {/* Product grid */}
+
+              {products.length === 0 ? (
+
+                <div className="shop-empty">
+
+                  <h2>No products available</h2>
+
+                  <p>
+                    Our collection will appear here once
+                    products are added.
+                  </p>
+
+                </div>
+
+              ) : (
+
+                <div className="shop-grid">
+
+                  {products.map((product) => {
+
+                    const price = getStartingPrice(product);
+
+                    return (
+                      <article
+                        className="shop-card"
+                        key={product.id}
+                      >
+
+                        {/* Image */}
+
+                        <Link
+                          to={`/product/${product.id}`}
+                          className="shop-image"
+                        >
+
+                          {product.image ? (
+                            <img
+                              src={getImageUrl(product.image)}
+                              alt={product.name}
+                            />
+                          ) : (
+                            <div className="shop-no-image">
+                              No image
+                            </div>
+                          )}
+
+                          <span className="image-link">
+                            View
+                          </span>
+
+                        </Link>
+
+
+                        {/* Details */}
+
+                        <div className="shop-details">
+
+                          <span className="product-category">
+                            {product.categoryName}
+                          </span>
+
+                          <h2>
+                            {product.name}
+                          </h2>
+
+                          {product.description && (
+                            <p className="product-description">
+                              {product.description}
+                            </p>
+                          )}
+
+
+                          <div className="product-footer">
+
+                            <div className="product-price">
+
+                              {price !== null ? (
+                                <>
+                                  <span>From</span>
+
+                                  <strong>
+                                    ₹{price.toFixed(0)}
+                                  </strong>
+                                </>
+                              ) : (
+                                <span>
+                                  View product
+                                </span>
+                              )}
+
+                            </div>
+
+
+                            <Link
+                              to={`/product/${product.id}`}
+                              className="product-link"
+                            >
+                              View Details
+                              <span>→</span>
+                            </Link>
+
+                          </div>
+
+                        </div>
+
+                      </article>
+                    );
+                  })}
+
+                </div>
+
+              )}
+
+            </>
 
           )}
 

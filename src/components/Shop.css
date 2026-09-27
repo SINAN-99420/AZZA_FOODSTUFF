@@ -43,7 +43,6 @@
 .shop-intro {
   max-width: 520px;
   margin: auto;
-
   color: #737870;
   font-size: 15px;
   line-height: 1.8;
@@ -72,7 +71,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 30px;
 
   border-bottom: 1px solid rgba(24, 61, 45, 0.12);
@@ -95,8 +93,7 @@
 
   cursor: pointer;
 
-  transition:
-    color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .filter-item::after {
@@ -112,8 +109,7 @@
 
   background: #a87932;
 
-  transition:
-    width 0.35s ease;
+  transition: width 0.35s ease;
 }
 
 .filter-item:hover {
@@ -222,7 +218,9 @@
 }
 
 
-/* View overlay */
+/* =========================
+   VIEW OVERLAY
+========================= */
 
 .image-link {
   position: absolute;
@@ -230,8 +228,7 @@
   left: 50%;
   bottom: 20px;
 
-  transform:
-    translate(-50%, 10px);
+  transform: translate(-50%, 10px);
 
   opacity: 0;
 
@@ -253,16 +250,16 @@
 .shop-card:hover .image-link {
   opacity: 1;
 
-  transform:
-    translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 
 
-/* No image */
+/* =========================
+   NO IMAGE
+========================= */
 
 .shop-no-image {
   color: #999d96;
-
   font-size: 12px;
 }
 
@@ -369,8 +366,7 @@
 
   white-space: nowrap;
 
-  transition:
-    color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .product-link span {
@@ -378,8 +374,7 @@
 
   font-size: 16px;
 
-  transition:
-    transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .product-link:hover {
@@ -420,47 +415,190 @@
 }
 
 
+/* ==================================================
+   SHOP SKELETON LOADING
+================================================== */
+
+.shop-filter-skeleton {
+  pointer-events: none;
+}
+
+.filter-skeleton-item {
+  width: 55px;
+  height: 14px;
+
+  border-radius: 6px;
+
+  background: #e5e4db;
+}
+
+.filter-skeleton-item.short {
+  width: 75px;
+}
+
+.result-skeleton {
+  width: 55px;
+  height: 11px;
+
+  border-radius: 5px;
+
+  background: #e5e4db;
+}
+
+
 /* =========================
-   LOADING
+   SKELETON CARD
 ========================= */
 
-.shop-loading {
-  min-height: 70vh;
+.shop-skeleton-card {
+  pointer-events: none;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transform: none !important;
 
-  background: #f7f6f0;
-
-  color: #183d2d;
-
-  font-size: 12px;
+  box-shadow: none !important;
 }
 
-.shop-loading span {
+
+/* =========================
+   SKELETON IMAGE
+========================= */
+
+.shop-skeleton-image {
   position: relative;
+
+  background: #e9e8df;
+
+  overflow: hidden;
 }
 
-.shop-loading span::after {
-  content: "...";
+.skeleton-shimmer {
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+
+  transform: translateX(-100%);
+
+  animation:
+    skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+
+/* =========================
+   SKELETON LINES
+========================= */
+
+.skeleton-pulse {
+  position: relative;
+
+  overflow: hidden;
+
+  background: #e5e4db;
+}
+
+.skeleton-pulse::after {
+  content: "";
 
   position: absolute;
-  animation: loadingDots 1.2s infinite;
+
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+
+  transform: translateX(-100%);
+
+  animation:
+    skeleton-shimmer 1.5s ease-in-out infinite;
 }
 
-@keyframes loadingDots {
 
-  0% {
-    opacity: 0;
-  }
+/* Category */
 
-  50% {
-    opacity: 1;
-  }
+.skeleton-category {
+  width: 95px;
+  height: 10px;
 
+  border-radius: 5px;
+
+  margin-bottom: 12px;
+}
+
+
+/* Title */
+
+.skeleton-title {
+  width: 150px;
+  height: 21px;
+
+  border-radius: 6px;
+
+  margin-bottom: 14px;
+}
+
+
+/* Description */
+
+.skeleton-description {
+  width: 100%;
+  height: 9px;
+
+  border-radius: 5px;
+
+  margin-bottom: 7px;
+}
+
+.skeleton-description.short {
+  width: 72%;
+
+  margin-bottom: 20px;
+}
+
+
+/* Price */
+
+.skeleton-price {
+  width: 35px;
+  height: 8px;
+
+  border-radius: 4px;
+}
+
+.skeleton-price-large {
+  width: 55px;
+  height: 16px;
+
+  border-radius: 5px;
+}
+
+
+/* Link */
+
+.skeleton-link {
+  width: 80px;
+  height: 11px;
+
+  border-radius: 5px;
+}
+
+
+/* =========================
+   SHIMMER ANIMATION
+========================= */
+
+@keyframes skeleton-shimmer {
   100% {
-    opacity: 0;
+    transform: translateX(100%);
   }
 }
 
@@ -504,7 +642,7 @@
   }
 
 
-  /* Horizontal category scroll */
+  /* Category scroll */
 
   .shop-filter {
     justify-content: flex-start;
@@ -537,6 +675,8 @@
   }
 
 
+  /* Product grid */
+
   .shop-grid {
     grid-template-columns: 1fr;
 
@@ -559,9 +699,38 @@
   }
 
 
-  /* Disable hover overlay on touch devices */
+  /* Disable overlay */
 
   .image-link {
     display: none;
   }
+
+
+  /* Skeleton */
+
+  .shop-skeleton-image {
+    height: 330px;
+  }
+
+  .skeleton-title {
+    width: 130px;
+  }
+
+  .skeleton-link {
+    width: 70px;
+  }
+}
+
+
+/* =========================
+   VERY SMALL PHONE
+========================= */
+
+@media (max-width: 380px) {
+
+  .shop-image,
+  .shop-skeleton-image {
+    height: 300px;
+  }
+
 }

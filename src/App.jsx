@@ -12,6 +12,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminCategories from "./pages/AdminCategories";
 import AdminProducts from "./pages/AdminProducts";
+import ScrollToTop from "./components/ScrollToTop";
 
 function AppContent() {
   const location = useLocation();
@@ -43,7 +44,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop/>
       <AppContent />
+   
     </BrowserRouter>
   );
 }
