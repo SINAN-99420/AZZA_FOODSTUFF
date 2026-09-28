@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Hero.css";
+import { Link } from "react-router-dom";
 
 function Hero() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -190,6 +191,7 @@ function Hero() {
 
           <div className="hero-actions">
 
+            <Link to="/shop">
             <button className="azza-shop-btn">
 
               <span>
@@ -201,9 +203,10 @@ function Hero() {
               </b>
 
             </button>
+            </Link>
 
 
-            <button className="discover-btn">
+            <Link to="/shop"><button className="discover-btn">
 
               Explore Products
 
@@ -211,7 +214,7 @@ function Hero() {
                 →
               </span>
 
-            </button>
+            </button></Link>
 
           </div>
 

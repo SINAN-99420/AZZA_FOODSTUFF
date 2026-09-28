@@ -1,5 +1,6 @@
 import "./OurStory.css";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 function OurStory() {
 
   useEffect(() => {
@@ -50,10 +51,10 @@ function OurStory() {
             prepared with quality and care.
           </p>
 
-          <button className="story-button">
+          <Link to="/why"><button className="story-button">
             Discover Azza
             <span>→</span>
-          </button>
+          </button></Link>
 
         </div>
 

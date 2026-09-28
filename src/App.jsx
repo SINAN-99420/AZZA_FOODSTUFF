@@ -13,6 +13,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminCategories from "./pages/AdminCategories";
 import AdminProducts from "./pages/AdminProducts";
 import ScrollToTop from "./components/ScrollToTop";
+import WhyAzza from "./components/WhyAzza";
+import ContactSection from "./components/ContactSection";
 
 function AppContent() {
   const location = useLocation();
@@ -28,6 +30,8 @@ function AppContent() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/why" element={<WhyAzza />} />
+        <Route path="/contact" element={<ContactSection />} />
         <Route path="/about" element={<About />} />
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/admin/login" element={<AdminLogin />} />

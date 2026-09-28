@@ -258,7 +258,7 @@ function About() {
 
               <div className="value-top">
                 <span>01</span>
-                <span>✦</span>
+                
               </div>
 
               <h3>Purity</h3>
@@ -275,7 +275,7 @@ function About() {
 
               <div className="value-top">
                 <span>02</span>
-                <span>✦</span>
+                
               </div>
 
               <h3>Quality</h3>
@@ -292,7 +292,7 @@ function About() {
 
               <div className="value-top">
                 <span>03</span>
-                <span>✦</span>
+                
               </div>
 
               <h3>Trust</h3>

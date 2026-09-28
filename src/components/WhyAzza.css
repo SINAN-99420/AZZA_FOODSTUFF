@@ -1,6 +1,6 @@
 .why-azza {
   background: #f7f6f0;
-  padding: 90px 7%;
+  padding: 115px 7%;
   position: relative;
 }
 
@@ -86,7 +86,7 @@
 @media (max-width: 768px) {
 
   .why-azza {
-    padding: 70px 6%;
+    padding: 100px 6%;
   }
 
   .why-azza-container {

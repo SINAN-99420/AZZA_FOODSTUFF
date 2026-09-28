@@ -2,7 +2,7 @@ import React from "react";
 import "./ContactSection.css";
 
 function ContactSection() {
-  const whatsappNumber = "918075360984";
+  const whatsappNumber = "919400040225";
 
   const openWhatsApp = () => {
     const message =
@@ -42,7 +42,7 @@ function ContactSection() {
               </button>
 
               <a
-                href="tel:+919XXXXXXXXX"
+                href="tel:+919400040225"
                 className="call-btn"
               >
                 Call Us
@@ -54,17 +54,17 @@ function ContactSection() {
 
             <div className="contact-info-item">
               <span>PHONE</span>
-              <p>+91 XXXXX XXXXX</p>
+              <p>+91 94000 40225</p>
             </div>
 
             <div className="contact-info-item">
               <span>EMAIL</span>
-              <p>hello@azzafoodstuff.com</p>
+              <p>azzafoodstuff4@gmail.com</p>
             </div>
 
             <div className="contact-info-item">
               <span>LOCATION</span>
-              <p>Kerala, India</p>
+              <p>Nilambur, Malappuram, Kerala, India</p>
             </div>
 
           </div>

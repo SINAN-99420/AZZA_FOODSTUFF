@@ -41,6 +41,7 @@
   align-items: center;
   gap: 7px;
   text-decoration: none;
+  color: #1a4730;
 }
 
 .orders-btn svg {
@@ -52,6 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+      color: #1a4730;
 }
 /* =================================
    SHOW / HIDE ON SCROLL

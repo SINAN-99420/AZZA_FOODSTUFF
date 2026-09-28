@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 function Footer() {
-  const whatsappNumber = "919XXXXXXXXX";
+  const whatsappNumber = "919400040225";
 
   const openWhatsApp = () => {
     const message =
@@ -40,9 +40,7 @@ function Footer() {
               Instagram
             </a>
 
-            <a href="#" aria-label="Facebook">
-              Facebook
-            </a>
+            
 
             <button onClick={openWhatsApp}>
               WhatsApp
@@ -85,23 +83,23 @@ function Footer() {
           <div className="footer-contact-item">
             <span>PHONE</span>
 
-            <a href="tel:+919XXXXXXXXX">
-              +91 XXXXX XXXXX
+            <a href="tel:+919400040225">
+              +91 94000 40225
             </a>
           </div>
 
           <div className="footer-contact-item">
             <span>EMAIL</span>
 
-            <a href="mailto:hello@azzafoodstuff.com">
-              hello@azzafoodstuff.com
+            <a href="mailto:azzafoodstuff4@gmail.com">
+              azzafoodstuff4@gmail.com
             </a>
           </div>
 
           <div className="footer-contact-item">
             <span>LOCATION</span>
 
-            <p>Kerala, India</p>
+            <p>Nilambur, Malappuram, Kerala, India</p>
           </div>
 
         </div>

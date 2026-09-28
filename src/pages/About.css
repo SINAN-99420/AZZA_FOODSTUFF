@@ -945,7 +945,7 @@
   .about-hero {
     min-height: 720px;
 
-    padding: 125px 6% 70px;
+    padding: 0px 6% 70px;
 
     align-items: flex-start;
   }
