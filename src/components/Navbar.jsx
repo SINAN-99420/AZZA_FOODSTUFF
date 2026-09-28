@@ -220,7 +220,7 @@ function Navbar() {
 
 
         <a
-          href="/#contact"
+          href="/contact"
           onClick={closeMenu}
         >
           Contact

@@ -5,13 +5,20 @@ import "./MyOrders.css";
 const API = "https://azza-backend.onrender.com";
 
 function MyOrders() {
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
   const getMyOrders = async (e) => {
     e.preventDefault();
+
+    if (!name.trim()) {
+      alert("Please enter your name.");
+      return;
+    }
 
     if (!phone.trim()) {
       alert("Please enter your phone number.");
@@ -23,7 +30,9 @@ function MyOrders() {
 
     try {
       const response = await axios.get(
-        `${API}/api/my-orders/?phone=${encodeURIComponent(phone.trim())}`,
+        `${API}/api/my-orders/?name=${encodeURIComponent(
+          name.trim()
+        )}&phone=${encodeURIComponent(phone.trim())}`,
         {
           withCredentials: true,
         }
@@ -81,42 +90,50 @@ function MyOrders() {
 
   return (
     <div className="my-orders-page">
-
       <div className="my-orders-container">
 
-        {/* =========================
-            HEADER
-        ========================= */}
+        {/* HEADER */}
 
         <div className="my-orders-header">
-
           <p className="my-orders-label">
             ORDER HISTORY
           </p>
 
-          <h1>
-            My Orders
-          </h1>
+          <h1>My Orders</h1>
 
           <p>
-            Enter your phone number to view your orders
-            and track their status.
+            Enter your name and phone number to view
+            your orders and track their status.
           </p>
-
         </div>
 
 
-        {/* =========================
-            PHONE SEARCH
-        ========================= */}
+        {/* SEARCH */}
 
         <form
           className="order-search"
           onSubmit={getMyOrders}
         >
 
-          <div className="phone-input">
+          {/* NAME */}
 
+          <div className="phone-input">
+            <label>
+              Name
+            </label>
+
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+
+          {/* PHONE */}
+
+          <div className="phone-input">
             <label>
               Phone Number
             </label>
@@ -127,8 +144,8 @@ function MyOrders() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-
           </div>
+
 
           <button
             type="submit"
@@ -140,9 +157,7 @@ function MyOrders() {
         </form>
 
 
-        {/* =========================
-            LOADING
-        ========================= */}
+        {/* LOADING */}
 
         {loading && (
           <div className="orders-loading">
@@ -151,14 +166,11 @@ function MyOrders() {
         )}
 
 
-        {/* =========================
-            NO ORDERS
-        ========================= */}
+        {/* NO ORDERS */}
 
         {!loading &&
           searched &&
           orders.length === 0 && (
-
             <div className="no-orders">
 
               <div className="no-orders-icon">
@@ -171,34 +183,29 @@ function MyOrders() {
 
               <p>
                 We couldn't find any orders
-                for this phone number.
+                for this name and phone number.
               </p>
 
             </div>
           )}
 
 
-        {/* =========================
-            ORDERS
-        ========================= */}
+        {/* ORDERS */}
 
         {!loading && orders.length > 0 && (
-
           <div className="orders-list">
 
             {orders.map((order) => (
-
               <div
                 className="order-card"
                 key={order.order_id}
               >
 
-                {/* Order Header */}
+                {/* ORDER HEADER */}
 
                 <div className="order-card-header">
 
                   <div>
-
                     <span>
                       ORDER
                     </span>
@@ -206,11 +213,9 @@ function MyOrders() {
                     <h2>
                       #{order.order_id}
                     </h2>
-
                   </div>
 
                   <div className="order-date">
-
                     <span>
                       ORDERED ON
                     </span>
@@ -218,13 +223,12 @@ function MyOrders() {
                     <p>
                       {formatDate(order.created_at)}
                     </p>
-
                   </div>
 
                 </div>
 
 
-                {/* Status */}
+                {/* STATUS */}
 
                 <div className="order-status-row">
 
@@ -243,7 +247,7 @@ function MyOrders() {
                 </div>
 
 
-                {/* Items */}
+                {/* ITEMS */}
 
                 <div className="order-items">
 
@@ -252,7 +256,6 @@ function MyOrders() {
                   </h3>
 
                   {order.items.map((item, index) => (
-
                     <div
                       className="order-item"
                       key={index}
@@ -279,13 +282,12 @@ function MyOrders() {
                       </strong>
 
                     </div>
-
                   ))}
 
                 </div>
 
 
-                {/* Total */}
+                {/* TOTAL */}
 
                 <div className="order-total">
 
@@ -303,7 +305,7 @@ function MyOrders() {
                 </div>
 
 
-                {/* Delivery Address */}
+                {/* ADDRESS */}
 
                 <div className="order-address">
 
@@ -322,15 +324,12 @@ function MyOrders() {
                 </div>
 
               </div>
-
             ))}
 
           </div>
-
         )}
 
       </div>
-
     </div>
   );
 }
