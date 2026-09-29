@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Cart.css";
+import { toast } from "./Toast";
 
 const API = "https://azza-backend.onrender.com";
 
@@ -139,7 +140,7 @@ function Cart() {
 
   const openOrderForm = () => {
     if (cart.items.length === 0) {
-      alert("Your cart is empty.");
+      toast.warning("Your cart is empty.");
       return;
     }
 
@@ -167,12 +168,12 @@ function Cart() {
       !customer.address ||
       !customer.pincode
     ) {
-      alert("Please fill all customer details.");
+      toast.warning("Please fill all customer details.");
       return;
     }
 
     if (cart.items.length === 0) {
-      alert("Your cart is empty.");
+      toast.warning("Your cart is empty.");
       return;
     }
 
@@ -272,12 +273,12 @@ function Cart() {
       );
 
       if (error.response) {
-        alert(
+        toast.error(
           error.response.data?.error ||
             "Failed to create order."
         );
       } else {
-        alert(
+        toast.error(
           "Could not connect to the server."
         );
       }

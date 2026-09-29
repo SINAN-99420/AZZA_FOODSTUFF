@@ -555,5 +555,7 @@
   .add-cart-btn,
   .buy-now-btn {
     width: 100%;
+    padding: 15px;
+
   }
 }

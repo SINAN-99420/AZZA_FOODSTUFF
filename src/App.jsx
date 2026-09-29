@@ -15,6 +15,7 @@ import AdminProducts from "./pages/AdminProducts";
 import ScrollToTop from "./components/ScrollToTop";
 import WhyAzza from "./components/WhyAzza";
 import ContactSection from "./components/ContactSection";
+import { Toaster } from "./components/Toast";
 
 function AppContent() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function App() {
     <BrowserRouter>
     <ScrollToTop/>
       <AppContent />
+      <Toaster />
    
     </BrowserRouter>
   );

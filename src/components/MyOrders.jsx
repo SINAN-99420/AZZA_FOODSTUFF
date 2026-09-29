@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "./MyOrders.css";
+import { toast } from "./Toast";
 
 const API = "https://azza-backend.onrender.com";
 
@@ -16,12 +17,12 @@ function MyOrders() {
     e.preventDefault();
 
     if (!name.trim()) {
-      alert("Please enter your name.");
+      toast.warning("Please enter your name.");
       return;
     }
 
     if (!phone.trim()) {
-      alert("Please enter your phone number.");
+      toast.warning("Please enter your phone number.");
       return;
     }
 
@@ -45,9 +46,9 @@ function MyOrders() {
       setOrders([]);
 
       if (error.response?.data?.error) {
-        alert(error.response.data.error);
+        toast.error(error.response.data.error);
       } else {
-        alert("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setLoading(false);

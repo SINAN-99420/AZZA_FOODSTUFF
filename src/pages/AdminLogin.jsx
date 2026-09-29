@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
+import { toast } from "../components/Toast";
 
 const API = "https://azza-backend.onrender.com";
 
@@ -10,7 +11,7 @@ function AdminLogin() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const setError = (text) => text && toast.error(text);
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
@@ -124,12 +125,6 @@ function AdminLogin() {
               required
             />
           </div>
-
-          {error && (
-            <div className="admin-login-error">
-              {error}
-            </div>
-          )}
 
           <button
             type="submit"

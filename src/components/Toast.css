@@ -1,0 +1,200 @@
+/* =========================
+   TOAST CONTAINER
+========================= */
+
+.azza-toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 360px;
+  max-width: calc(100vw - 32px);
+
+  pointer-events: none;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.azza-toast {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 14px 14px 16px 16px;
+
+  background: #ffffff;
+  border: 1px solid rgba(24, 61, 45, 0.10);
+  border-left: 4px solid var(--toast-accent);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(16, 35, 27, 0.14);
+
+  color: #183d2d;
+  font-family: inherit;
+
+  pointer-events: auto;
+  animation: azza-toast-in 0.28s ease-out;
+}
+
+.azza-toast-leaving {
+  animation: azza-toast-out 0.22s ease-in forwards;
+}
+
+.azza-toast-success {
+  --toast-accent: #245a3e;
+}
+
+.azza-toast-error {
+  --toast-accent: #a04a3d;
+}
+
+.azza-toast-warning {
+  --toast-accent: #a87932;
+}
+
+.azza-toast-info {
+  --toast-accent: #183d2d;
+}
+
+.azza-toast-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--toast-accent);
+}
+
+.azza-toast-text {
+  flex: 1;
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.azza-toast-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+
+  color: #68736d;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.azza-toast-close:hover {
+  background: #f7f6f0;
+  color: #183d2d;
+}
+
+.azza-toast-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  height: 3px;
+  width: 100%;
+
+  background: var(--toast-accent);
+  opacity: 0.25;
+  transform-origin: left;
+
+  animation-name: azza-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.azza-toast:hover .azza-toast-progress {
+  animation-play-state: paused;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes azza-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes azza-toast-out {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes azza-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  .azza-toast-container {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+
+    width: auto;
+    max-width: none;
+  }
+
+  @keyframes azza-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes azza-toast-out {
+    to {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .azza-toast,
+  .azza-toast-leaving {
+    animation-duration: 0.01ms;
+  }
+}

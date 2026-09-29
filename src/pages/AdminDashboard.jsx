@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 import AdminNavbar from "./AdminNavbar";
+import { toast } from "../components/Toast";
 
 const API = "https://azza-backend.onrender.com";
 
@@ -12,7 +13,7 @@ function AdminDashboard() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(null);
-  const [error, setError] = useState("");
+  const setError = (text) => text && toast.error(text);
 
   const getCSRFToken = async () => {
     try {
@@ -221,12 +222,6 @@ function AdminDashboard() {
       <AdminNavbar onLogout={handleLogout} />
 
       <main className="admin-dashboard-content">
-
-        {error && (
-          <div className="admin-dashboard-error">
-            {error}
-          </div>
-        )}
 
         <section className="admin-stats">
 

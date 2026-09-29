@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./ProductDetail.css";
+import { toast } from "./Toast";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -180,7 +181,7 @@ function ProductDetail() {
 
   const handleAddToCart = async () => {
     if (!selectedVariant) {
-      alert(
+      toast.warning(
         "Please select a product variant."
       );
 
@@ -206,7 +207,7 @@ function ProductDetail() {
         }
       );
 
-      alert(
+      toast.success(
         "Product added to cart"
       );
 
@@ -228,7 +229,7 @@ function ProductDetail() {
         );
       }
 
-      alert(
+      toast.error(
         "Something went wrong"
       );
     }

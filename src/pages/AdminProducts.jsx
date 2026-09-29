@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 import "./AdminProducts.css";
+import { toast } from "../components/Toast";
 
 const API = "https://azza-backend.onrender.com";
 
@@ -13,8 +14,8 @@ function AdminProducts() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const setError = (text) => text && toast.error(text);
+  const setMessage = (text) => text && toast.success(text);
 
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -485,20 +486,6 @@ function AdminProducts() {
           </button>
 
         </div>
-
-        {/* MESSAGE */}
-
-        {message && (
-          <div className="admin-success-message">
-            {message}
-          </div>
-        )}
-
-        {error && (
-          <div className="admin-error-message">
-            {error}
-          </div>
-        )}
 
         {/* =================================
             ADD / EDIT MODAL

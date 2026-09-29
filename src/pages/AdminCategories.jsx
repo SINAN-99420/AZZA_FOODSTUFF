@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 import "./AdminCategories.css";
+import { toast } from "../components/Toast";
 
 const API = "https://azza-backend.onrender.com";
 
@@ -11,7 +12,7 @@ function AdminCategories() {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+  const setError = (text) => text && toast.error(text);
 
   const getCSRFToken = async () => {
     try {
@@ -136,12 +137,6 @@ function AdminCategories() {
             + Add Category
           </button>
         </div>
-
-        {error && (
-          <div className="admin-category-error">
-            {error}
-          </div>
-        )}
 
         {showForm && (
           <div className="admin-category-form-box">
