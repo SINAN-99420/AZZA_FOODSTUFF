@@ -182,8 +182,8 @@ function MyOrders() {
               </h2>
 
               <p>
-                We couldn't find any orders
-                for this name and phone number.
+                Please enter the exact name and phone number
+                you used while placing the order.
               </p>
 
             </div>

@@ -42,6 +42,7 @@ function FeaturedProducts() {
           </h2>
         </div>
 
+
         {/* Categories */}
         {loading ? (
           <div className="featured-categories skeleton-categories">
@@ -66,12 +67,16 @@ function FeaturedProducts() {
           </div>
         )}
 
+
         {/* Products */}
         {loading ? (
           <div className="featured-products">
 
             {[1, 2].map((item) => (
-              <div className="featured-product skeleton-product" key={item}>
+              <div
+                className="featured-product skeleton-product"
+                key={item}
+              >
 
                 <div className="featured-product-image skeleton-image">
                   <div className="skeleton-shimmer"></div>
@@ -93,62 +98,72 @@ function FeaturedProducts() {
 
           </div>
         ) : (
-          activeCategory && (
-            <div className="featured-products">
+          activeCategory &&
+          (
+            activeCategory.products &&
+            activeCategory.products.length > 0 ? (
+              <div className="featured-products">
 
-              {activeCategory.products.map((product) => {
+                {activeCategory.products.map((product) => {
+                  const price =
+                    product.variants &&
+                    product.variants.length > 0
+                      ? product.variants[0].price
+                      : null;
 
-                const price =
-                  product.variants.length > 0
-                    ? product.variants[0].price
-                    : null;
-
-                return (
-                  <div
-                    className="featured-product"
-                    key={product.id}
-                  >
-
-                    <a href={`/product/${product.id}`}>
-                      <div className="featured-product-image">
-
-                        {product.image ? (
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                          />
-                        ) : (
-                          <div className="featured-image-placeholder">
-                            No image
-                          </div>
-                        )}
-
-                      </div>
-                    </a>
-
-                    <div className="featured-product-info">
-
-                      <div>
-                        <h3>{product.name}</h3>
-
-                        {price && (
-                          <p>From ₹{price}</p>
-                        )}
-                      </div>
+                  return (
+                    <div
+                      className="featured-product"
+                      key={product.id}
+                    >
 
                       <a href={`/product/${product.id}`}>
-                        View product <span>→</span>
+                        <div className="featured-product-image">
+
+                          {product.image ? (
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                            />
+                          ) : (
+                            <div className="featured-image-placeholder">
+                              No image
+                            </div>
+                          )}
+
+                        </div>
                       </a>
 
+
+                      <div className="featured-product-info">
+
+                        <div>
+                          <h3>{product.name}</h3>
+
+                          {price && (
+                            <p>From ₹{price}</p>
+                          )}
+                        </div>
+
+                        <a href={`/product/${product.id}`}>
+                          View product <span>→</span>
+                        </a>
+
+                      </div>
+
                     </div>
+                  );
+                })}
 
-                  </div>
-                );
-              })}
-
-            </div>
+              </div>
+            ) : (
+              <div className="no-products">
+                <p>No products found.</p>
+              </div>
+            )
           )
         )}
+
 
         {/* Bottom */}
         <div className="featured-bottom">
